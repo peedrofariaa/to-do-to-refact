@@ -1,13 +1,19 @@
 import { v4 as uuidv4 } from "uuid";
 import { useState } from "react";
 
-export default function ToDo() {
-  const [toDoName, setToDoName] = useState("");
-  const [editingToDo, setEditingToDo] = useState("");
-  const [editingToDoName, setEditingToDoName] = useState("");
-  const [toDo, setToDo] = useState([]);
+type ToDoItem = {
+  id: string;
+  name: string;
+  checked: boolean;
+};
 
-  const createToDo = (e, name) => {
+export default function ToDo() {
+  const [toDoName, setToDoName] = useState<string>("");
+  const [editingToDo, setEditingToDo] = useState<string>("");
+  const [editingToDoName, setEditingToDoName] = useState<string>("");
+  const [toDo, setToDo] = useState<ToDoItem[]>([]);
+
+  const createToDo = (e: React.FormEvent, name: string) => {
     e.preventDefault();
 
     const hasThisNameInToDo = toDo.some((el) => el.name == name.trim());
@@ -26,13 +32,13 @@ export default function ToDo() {
     ]);
   };
 
-  const deleteToDo = (id) => {
+  const deleteToDo = (id: string) => {
     const newToDo = toDo.filter((el) => el.id !== id);
 
     setToDo(newToDo);
   };
 
-  const editToDoName = (e, id, name) => {
+  const editToDoName = (e: React.FormEvent, id: string, name: string) => {
     e.preventDefault();
     const hasThisNameInToDo = toDo.some(
       (el) => el.name === name.trim() && el.id !== id
@@ -49,14 +55,14 @@ export default function ToDo() {
     setEditingToDo("");
   };
 
-  const toggleToDoCheck = (id) => {
+  const toggleToDoCheck = (id: string) => {
     const newToDo = toDo.map((el) =>
       el.id === id ? { ...el, checked: !el.checked } : el
     );
     setToDo(newToDo);
   };
 
-  const handleToDoToEdit = (name, id) => {
+  const handleToDoToEdit = (name: string, id: string) => {
     setEditingToDoName(name);
     setEditingToDo(id);
   };
